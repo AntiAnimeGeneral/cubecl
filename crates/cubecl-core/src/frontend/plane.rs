@@ -390,3 +390,39 @@ pub mod plane_ballot {
         output.into()
     }
 }
+
+pub fn plane_shuffle<E: CubePrimitive>(_elem: E, _target: u32) -> E {
+    unexpanded!()
+}
+
+/// Module containing the expand function for [plane_shuffle()].
+pub mod plane_shuffle {
+    use cubecl_ir::UIntKind;
+
+    use super::*;
+
+    /// Expand method of [plane_shuffle()].
+    pub fn expand<E: CubePrimitive>(
+        scope: &mut Scope,
+        elem: ExpandElementTyped<E>,
+        target: ExpandElementTyped<u32>,
+    ) -> ExpandElementTyped<E> {
+        let elem: ExpandElement = elem.into();
+        // let out_item = Type::scalar(ElemType::UInt(UIntKind::U32)).line(4);
+        // let output = scope.create_local(out_item);
+        let output = scope.create_local(elem.ty);
+
+        let out = *output;
+        // let input = *elem;
+
+        let lhs = *elem;
+        let rhs = *target.expand;
+
+        scope.register(Instruction::new(
+            Plane::Shuffle(crate::ir::BinaryOperator { lhs, rhs }),
+            out,
+        ));
+
+        output.into()
+    }
+}

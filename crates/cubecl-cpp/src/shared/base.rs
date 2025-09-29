@@ -401,6 +401,9 @@ impl<D: Dialect> CppCompiler<D> {
                             out,
                         }))
                     }
+                    gpu::Plane::Shuffle(_op) => {
+                        panic!("cpp: unimplemented shuffle")
+                    }
                 }
             }
             gpu::Operation::CoopMma(cmma) => instructions.push(self.compile_cmma(cmma, out)),

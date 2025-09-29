@@ -1,3 +1,5 @@
+use core::panic;
+
 use cubecl_core::ir::{Plane, UnaryOperator, Variable};
 use rspirv::spirv::{Capability, GroupOperation, Scope, Word};
 
@@ -100,6 +102,9 @@ impl<T: SpirvTarget> SpirvCompiler<T> {
                         }
                     }
                 });
+            }
+            Plane::Shuffle(_op) => {
+                panic!("spirv: unimplemented shuffle")
             }
             Plane::Sum(op) => {
                 self.plane_sum(op, out, GroupOperation::Reduce, uniform);
